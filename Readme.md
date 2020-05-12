@@ -18,7 +18,7 @@
 
 **3. Run project** 
 ```bash
-    java -jar target/securitymodule-0.0.1-SNAPSHOT.jar
+    java -jar target/AuthApi-0.0.1-SNAPSHOT.jar
 ``` 
 - OR-
 ```bash
