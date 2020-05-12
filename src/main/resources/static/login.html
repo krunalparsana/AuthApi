@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Spring Boot AuthApi Login</title>
+</head>
+<body>
+
+	<h2 align="center">Login To Continue</h2>
+
+	<form align="center">
+		<table align="center">
+			<tr>
+				<th>UserName:</th>
+				<td><input type="email" id="username" name="username"></td>
+			</tr>
+			<tr>
+				<th>Password:</th>
+				<td><input type="password" id="password" name="password"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><button type="button"
+						onclick="login()">Login</button></td>
+			</tr>
+		</table>
+		</br>
+	</form>
+	<h2 id="message" align="center" style="color:red;"></h2>
+	<h3 align="center">
+		<a href="signup.html">Click here to Register</a>
+	</h3>
+
+	<script type="text/javascript">
+		function login() {
+			if(document.getElementById("username").value!=="" || document.getElementById("password").value!=="")
+			{
+			var loginDetails = {};
+			loginDetails["email"] = document.getElementById("username").value;
+			loginDetails["password"] = document.getElementById("password").value;
+			var json = JSON.stringify(loginDetails);
+			var request = new XMLHttpRequest();
+			request.open('POST', 'http://localhost:8080/api/login');
+			request.setRequestHeader('Content-type', 'application/json');
+			request.send(json);
+			request.onload = function() {
+				if (this.status === 200) {
+					window.location.href = "http://localhost:8080/static/index.html";
+				} else {
+					var json = JSON.parse(this.responseText);
+					if (this.status === 400)
+						document.getElementById('message').innerHTML = json['error'][0]['defaultMessage'];
+				}
+			}
+			}
+			else
+				document.getElementById('message').innerHTML = "Enter valid details";
+		}
+	</script>
+</body>
+</html>

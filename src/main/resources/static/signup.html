@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Spring Boot AuthApi Signup</title>
+<style type="text/css">
+body {
+	align-content: center;
+}
+</style>
+</head>
+<body>
+	<h2 align="center">Register Yourself Here</h2>
+
+	<form align="center">
+		<table align="center">
+			<tr>
+				<th>UserName:</th>
+				<td><input type="email" id="username" name="username"></td>
+			</tr>
+			<tr>
+				<th>Password:</th>
+				<td><input type="password" id="password" name="password"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><button type="button"
+						onclick="signup()">Signup</button></td>
+			</tr>
+		</table>
+		</br>
+
+	</form>
+	<h2 id="message" align="center" style="color: red;"></h2>
+	<h3 align="center">
+		<a href="login.html">Click here to Login</a>
+	</h3>
+
+	<script type="text/javascript">
+		function signup() {
+			var user = {};
+			user["email"] = document.getElementById("username").value;
+			user["password"] = document.getElementById("password").value;
+			var req = new XMLHttpRequest();
+			var json = JSON.stringify(user);
+			req.open('POST', 'http://localhost:8080/api/signup');
+			req.setRequestHeader('Content-Type', 'application/json');
+			req.send(json);
+			req.onload = function() {
+				if (this.status === 200) {
+					console.log(this.responseText);
+					document.getElementById('message').innerHTML = this.responseText;
+				} else {
+					console.log(this.status);
+					var json = JSON.parse(this.responseText);
+					if (req.status === 400)
+						document.getElementById('message').innerHTML = json['errors'][0]['defaultMessage'];
+					else
+						document.getElementById('message').innerHTML = "Email must be unique";
+				}
+			}
+		}
+	</script>
+</body>
+</html>

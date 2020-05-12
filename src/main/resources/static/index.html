@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Spring Boot AuthApi</title>
+</head>
+<body onload="checkAuthentication()">
+	<center>
+		<h2 id="message" align="center">Welcome</h2>
+		<button type="button" onclick="logout()" >Logout</button>
+	</center>
+
+	<script>
+		function checkAuthentication() {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'http://localhost:8080/api/dummy');
+			request.send();
+			request.onload = function() {
+				if (this.status === 200) {
+					document.getElementById('message').innerHTML = "Hello User you are logged in...";
+				} else
+					window.location.href = "http://localhost:8080/static/login.html";
+			}
+		}
+		function logout() {
+			var request = new XMLHttpRequest();
+			request.open('GET', 'http://localhost:8080/api/logout');
+			request.send();
+			request.onload = function() {
+				window.location.href = "http://localhost:8080/static/login.html";
+			}
+		}
+	</script>
+</body>
+</html>
